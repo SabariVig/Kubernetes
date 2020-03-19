@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-pod
+spec:
+  volumes:
+    - name: nfs-pod-volume
+      persistentVolumeClaim:
+        claimName: volume-claim
+  containers:
+    - image: busybox
+      name: busyboxx
+      command: ["/bin/sh"]
+      args: ["-c", "sleep 100"]
+      volumeMounts:
+        - name: nfs-pod-volume
+          mountPath: /tmp/lol/
+
+      resources:
+        limits:
+          cpu: 500m
+          memory: 500Mi
