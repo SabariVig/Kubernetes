@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-volume
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: nginx-pod
+  template:
+    metadata:
+      name: nfs-pod
+      labels:
+        name: nginx-pod
+    spec:
+      volumes:
+        - name: www
+          persistentVolumeClaim:
+              claimName: volume-claim
+      containers:
+        - name: nginx
+          image: nginx
+          volumeMounts:
+            - name: www
+              mountPath: /usr/share/nginx/html
+          resources:
+              limits:
+                cpu: 500m
+                memory: 500Mi
+
