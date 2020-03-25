@@ -1,2 +1,5 @@
 *.zip
 *.vagrant
+*.crt
+*.key
+*.csr
