@@ -1,35 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: nfs-dynamic-deploy
+metadata: 
+  name: nfs-client-provisioner
 spec:
   replicas: 1
+  strategy: 
+    type: Recreate
   selector:
     matchLabels:
-      app: dynamic-nfs-pod
+      app: nfs-client-provisioner
   template:
     metadata:
       labels:
-        app: dynamic-nfs-pod
-      name: dynamic-nfs-pod
+        app: nfs-client-provisioner
     spec:
       volumes:
         - name: nfs-volume
           nfs:
             server: 192.168.31.103
             path: /mnt/nfs_share
+      serviceAccountName: nfs-client-provisioner
       containers:
-        - name: dynamic-nfs-pod
+        - name: nfs-client-provisioner
           image: quay.io/external_storage/nfs-client-provisioner:latest
-
           env:
-            - name: PROVISIONER_NAME
-              value: example.com/nfs
-            - name: NFS_SERVER
-              value: 192.168.31.103
-            - name: NFS_PATH
-              value: /mnt/nfs_share
-
+              - name: PROVISIONER_NAME
+                value: example.com/nfs
+              - name: NFS_SERVER
+                value: 192.168.31.103
+              - name: NFS_PATH
+                value: /mnt/nfs_share
           volumeMounts:
             - name: nfs-volume
-              mountPath: /temp/lolz
+              mountPath: /temp/lol
+          
