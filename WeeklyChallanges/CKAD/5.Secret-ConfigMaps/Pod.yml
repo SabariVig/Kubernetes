@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: bash
+  name: bash
+spec:
+  volumes:
+    - name: pass-pod
+      secret:
+        secretName: password
+  containers:
+  - args:
+    - bash
+    - -c
+    - sleep 500
+    image: bash
+    name: bash
+    volumeMounts:
+      - name: pass-pod
+        mountPath: /tmp/secret1
+    envFrom:
+      - configMapRef:
+          name: food    
