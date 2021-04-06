@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Pod
-metadata:
-  name: sleeper
-spec:
-  containers:
-    - name: sleeper
-      image: bash
-      args: ['bash','-c','hostname > /tmp/hostname && sleep 400']
